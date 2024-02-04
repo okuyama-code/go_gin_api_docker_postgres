@@ -1,0 +1,22 @@
+version: '3'
+services:
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: gorm
+      POSTGRES_PASSWORD: gorm
+      POSTGRES_DB: gorm
+    ports:
+      - 5432:5432
+  app:
+    container_name: go_api
+    build:
+      context: .
+      dockerfile: ./docker/app/Dockerfile
+    volumes:
+      - ./app:/usr/local/go/src/web/app
+    tty: true
+    depends_on:
+      - db
+    ports:
+      - 8080:8080
